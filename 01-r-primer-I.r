@@ -66,7 +66,7 @@ mat[,1]
 # - the RStudio editor provides auto completion (use 'TAB')
 # - very useful: recycle previous commands by using the arrow keys (up/down) in the console
 
-### list of helpful shortcuts (replace CTRL with Command on a Mac)
+# ## list of helpful shortcuts (replace CTRL with Command on a Mac)
 # CTRL+1         point cursor in editor
 # CTRL+2         point cursor in console
 # ESC            interrupt R
@@ -128,8 +128,12 @@ head(wage1)
 # ************************************************
 # INSPECTING DATA --------------------------------
 
+library(wooldridge)
+
 # what's the data about? (works for packaged data frames only)
 ?wage1
+
+View(wage1)
 
 # summarize variables
 summary(wage1)
@@ -176,6 +180,7 @@ library(dplyr)
 ### let's try it out with an interesting dataset!
 library(nycflights13)
 ?flights
+View(flights)
 head(flights)
 nrow(flights)
 table(flights$origin)
@@ -186,6 +191,7 @@ table(flights_sub$dest)
 
 flights_sub <- filter(flights, month == 1, day == 1, air_time > 60*7)
 table(flights_sub$dest)
+View(flights_sub)
 
 # arrange rows (= sort by variable values)
 flights_sub <- arrange(flights, air_time, distance) 
@@ -229,23 +235,6 @@ summarize(flights_by_origin, dep_delay = mean(dep_delay, na.rm = TRUE))
 
 # here's a useful cheatsheet that points to other useful dplyr functions:
 browseURL("hhttps://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf")
-
-
-
-
-# ************************************************
-# EXERCISE: DATA FRAME MANAGEMENT ----------------
-
-# Use the "nycflights13" package to answer the following questions!
-
-# 1. How many variables and observations does the data.frame "flights" from the nycflights13 package contain?
-# 2. Select the flights that started from NYC at the first day of each month!
-# 3. Sort flights by time of arrival!
-# 4. How many flights started from all the NYC airports in 2013?
-# 5. Which flights went from JFK to PWM (Portland) in January between midnight and 5am?
-# 5. Which carrier had the biggest mean net delay (departure delay minus arrival delay), which the lowest?
-# 6. Inspect visually how the net delays are distributed!
-
 
 
 

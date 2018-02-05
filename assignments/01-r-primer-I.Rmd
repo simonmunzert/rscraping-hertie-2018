@@ -1,0 +1,50 @@
+---
+title: "Web Data Collection Assignment: R primer I"
+author: "Simon Munzert"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+source("../packages.r")
+```
+
+
+<br>
+
+##### 1. NYC flights
+
+Use the "nycflights13" package to answer the following questions!
+
+a. How many variables and observations does the data.frame "flights" from the nycflights13 package contain?
+b. Select the flights that started from NYC at the first day of each month!
+c. Sort flights by time of arrival!
+d. How many flights started from all the NYC airports in 2013?
+e. Which carrier had the biggest mean net delay (departure delay minus arrival delay), which the lowest?
+f. Inspect visually how the net delays are distributed!
+
+```{r}
+library(nycflights13)
+nrow(flights)
+```
+
+<span style="color:blue">
+Add comment like this! (just copy the <span>...</span> lines for future comments in the Rmd file.)
+</span>
+
+
+<br>
+
+##### 2. Baby names
+
+Use the "babynames" package to answer the following questions!
+
+a. Which time period does the data frame cover?
+b. What has been the most frequent name in the US since 1880? (hint: you might need the group_by() as well as the sum() function)
+c. Use graphical means to determine since which year the name "Kim" became more popular as a female than a male name! (hint: grouping by two variables is helpful here! For the plot, use "year" on the x axis and "total count" on the y axis! Furthermore, this Stackoverflow post helps you understand how to plot two lines in one chart: https://stackoverflow.com/questions/2564258/plot-two-graphs-in-same-plot-in-r)
+
+```{r}
+# add code here!
+```
+
+
