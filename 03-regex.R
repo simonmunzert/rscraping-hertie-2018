@@ -6,7 +6,6 @@
 
 
 source("packages.r")
-source("functions.r")
 
 
 ## string basics -----------------

@@ -6,7 +6,6 @@
 ## peparations -------------------
 
 source("packages.r")
-source("functions.r")
 
 ## getting live data from Twitter ---------------------------
 

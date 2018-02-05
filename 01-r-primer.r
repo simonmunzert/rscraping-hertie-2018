@@ -4,7 +4,6 @@
 # ************************************************
 
 source("packages.r")
-source("functions.r")
 
 
 # ************************************************
@@ -16,6 +15,20 @@ source("functions.r")
 # - works on all main platforms (Windows, macOS, Linux)
 # - under continuous development
 # - masses of addons ('packages') available, ~4-8 new ones every day (currently more than 10,000 on CRAN)
+
+
+# ************************************************
+# BE PATIENT WITH R, AND WITH YOURSELF -----------
+
+# (from http://socviz.co/gettingstarted.html#things-to-know-about-r)
+
+# Like all programming languages, R does exactly what you tell it to, rather than exactly what you want it to. 
+# This can make it frustrating to work with. It is as if one had an endlessly energetic, powerful, but also extremely literal-minded robot to order around. 
+# No-one writes fluent, error-free code on the first go all the time. From simple typos to big misunderstandings, mistakes are a standard part of the activity of programming. 
+# This is why error-checking, debugging, and testing are also a central part of programming. 
+# So, just try to be patient with yourself and with R while you use it. Expect to make errors, and don’t worry when that happens. 
+# You won’t break anything. Each time you figure out why a bit of code has gone wrong you will have learned a new thing about how the language works.
+
 
 
 # ************************************************

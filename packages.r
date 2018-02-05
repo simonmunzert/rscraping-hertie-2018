@@ -1,11 +1,9 @@
 
 # install packages from CRAN
 p_needed <- c("rvest", # scraping suite
-              "httr", # suite to ease HTTP communication
+              "httr", "httpuv", # suites to ease HTTP communication
               "RSelenium", # access Selenium API
-              "pageviews", "aRxiv", "twitteR", "streamR", "ROAuth", "gtrendsR",               "ggmap", # access various web APIs
-              "httpuv",
-              "rtweet",
+              "pageviews", "aRxiv", "rtweet", "ROAuth", "gtrendsR", "ggmap", # access various web APIs
               "robotstxt", # parse robots.txt files
               "readr", # imports spreadsheet data
               "haven", # imports SPSS, Stata and SAS files
@@ -24,7 +22,7 @@ p_needed <- c("rvest", # scraping suite
               "reshape2", # reshape data 
               "xtable", # generate table output
               "stargazer", # generate nice model table
-              "babynames", # dataset compiled by Hadley Wickham; contains US baby names provided by the SSA and data on all names used for at least 5 children of either sex
+              "babynames", # US babynames dataset 
               "nycflights13" # data set on all 336776 flights departing from NYC in 2013
 )
 packages <- rownames(installed.packages())

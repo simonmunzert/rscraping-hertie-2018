@@ -5,9 +5,7 @@
 
 ## peparations -------------------
 
-setwd("/Users/simonmunzert/GitHub/rscraping-hu-2017")
 source("packages.r")
-source("functions.r")
 
 
 ## breaking up the HTML ----------

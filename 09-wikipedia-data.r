@@ -6,7 +6,6 @@
 ## peparations -------------------
 
 source("packages.r")
-source("functions.r")
 
 #install.packages(c("WikipediR", "WikidataR", "pageviews", "statsgrokse"))
 library("WikipediR")

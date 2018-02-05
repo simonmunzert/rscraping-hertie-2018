@@ -6,8 +6,7 @@
 ## peparations -------------------
 
 source("packages.r")
-source("functions.r")
-library(rvest)
+
 
 
 ## setup R + RSelenium -------------------------
