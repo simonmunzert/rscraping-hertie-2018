@@ -19,6 +19,10 @@ Simon Munzert ([website](https://simonmunzert.github.io), [Twitter](https://twit
 
 Together with Christian Rubba, Peter Meissner, and Dominic Nyhuis, I've written a book on [Automated Data Collection with R](http://r-datacollection.com). Participants of the course might find it useful to consult it as further reading after the course. As a documentation of the course work, this code archive and the accompanying reader is fully sufficient though.
 
+**DataCamp**
+
+This class is supported by [DataCamp](https://www.datacamp.com/), the most intuitive learning platform for data science. Learn R, Python and SQL the way you learn best through a combination of short expert videos and hands-on-the-keyboard exercises. Take over 100+ courses by expert instructors on topics such as importing data, data visualization or machine learning and learn faster through immediate and personalised feedback on every exercise.
+
 
 **Online resources**
 
