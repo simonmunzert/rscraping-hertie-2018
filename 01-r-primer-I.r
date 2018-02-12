@@ -42,7 +42,7 @@ source("packages.r")
 
 # - R is ready when the console offers '>'
 # - input is incomplete if R answers with '+' (you are likely to have forgotten a ')' or ']')
-1 + 2 - 3 + 
+1 + 2 - 
   
 # - R is 'case sensitve'
 sum(1,2)
@@ -218,7 +218,7 @@ flights_sub <- rename(flights, tail_num = tailnum)
 names(flights_sub)
 
 # create variables (add new columns)
-flights_sub <- mutate(flights, gain = arr_delay - dep_delay, 
+flights_sub <- mutate(flights, loss = arr_delay - dep_delay, 
                                speed = distance / air_time * 60)
 
 # group observations

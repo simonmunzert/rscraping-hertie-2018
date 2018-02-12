@@ -1,0 +1,65 @@
+---
+title: "Web Data Collection Assignment: R primer II"
+author: "Simon Munzert"
+output: html_document
+---
+
+##### 0. Load packages
+
+```{r setup, message=FALSE, warning=FALSE}
+library(rvest)
+library(stringr)
+# enter R code here
+```
+
+
+
+### 1. Loops and Split-Apply-Combine
+
+Return to the `flights` dataset from the `nycflights13` package to solve the following problems.
+
+a. Identify the class of all the variables using an appropriate apply command. Explain why the output is not a character vector.
+b. Select all numeric variables and store them in a new data frame `flights_sub`. <i>(Hint: the `select_if()` function from the `dplyr` package helps!)</i>
+c. Compute the variable means of `flights_sub`, discarding all `NA` values. The result should be stored in a numeric vector.
+d. Use the `lapply()` function together with an anonymous function to center all variables of `flights_sub` (i.e., they should have mean 0). Then, check whether you succeeded with another of the apply functions.
+
+```{r}
+# enter R code here
+```
+
+
+
+### 2. Downloading and managing files
+
+Go to the webpage of the Comparative Study of Electoral Systems (CSES) and check out the Module 4, which comprises election surveys launched 2011-2016 (http://www.cses.org/datacenter/module4/module4.htm). The following piece of code identifies all links to resources on the webpage and selects the subset of links that refers to the survey questionnaire PDFs. With this at hand, try to solve the following tasks.
+
+a. Set up a folder "data/cses-pdfs".
+b. Download the first 10 of the survey questionnaire PDFs into that folder using a for loop and the download.file() function.
+c. Check if the number of files in the folder corresponds with the number of downloads and list the names of the files.
+d. Inspect the files. Which is the largest one?
+
+```{r}
+url <- "http://www.cses.org/datacenter/module4/module4.htm"
+page_links <- read_html(url) %>% html_nodes("a") %>% html_attr("href")
+survey_pdfs <- str_subset(page_links, "/survey")
+```
+
+```{r}
+# enter R code here
+```
+
+
+### 3. Crafting your own functions
+
+Solve the following tasks!
+
+a. Program a function `ultimateAnswer()` that always returns the number 42!
+b. Program a function `normalize()` that normalizes a numeric vector x to mean(x) = 0 and sd(x) = 1!
+c. Use `integrate()` and an anonymous function to find the area under the curve for the following functions:
+  - y = x ^ 2 - x, x in [0, 10]
+  - y = sin(x) + cos(x), x in [-pi, pi]
+
+```{r}
+# enter R code here
+```
+
