@@ -43,7 +43,7 @@ babynames %>%
 
 # syntax and vocabulary
 # by default, the left-hand side (LHS) will be piped in as the first argument of the function appearing on the right-hand side (RHS)
-# %>% may be used in a nested fashion, e.g. it may appear in expressions within arguments. This is used in the mpg to kpl conversion
+# %>% may be used in a nested fashion, e.g. it may appear in expressions within arguments.
 # when the LHS is needed at a position other than the first, one can use the dot,'.', as placeholder
 # whenever only one argument is needed--the LHS--, the parentheses can be omitted
 
@@ -61,9 +61,9 @@ babynames_ste_grouped <- group_by(babynames_ste, year, sex)
 babynames_ste_grouped <- summarize(babynames_ste_grouped, total = sum(n))
 qplot(year, total, color = sex, data = babynames_ste_grouped, geom = "line") + ggtitle('Names starting with "Ste"')
 
+
 # 2. Rewrite the following bunch of code using magrittr pipes!
 arrange(select(filter(babynames, year == 2015, sex == "F"), name, n), desc(n))[1:10,]
-
 
 
 
@@ -106,13 +106,13 @@ rep(c(1, 2, 3), each = 2)
 
 # sorting
 vec1 <- c(2, 20, -5, 1, 200)
-vec2 <- seq(1, 5)
 sort(vec1) 
 order(vec1, decreasing = FALSE)
 vec1[order(vec1)]
 vec3 <- c(1,10,NA,7,NA,11)
 vec4 <- vec3[!is.na(vec3)]
 vec4
+
 
 # vectors with mixed element types are not possible
 z <- c(1,2,"Bavaria", 4)
@@ -223,7 +223,7 @@ select(mtcars, gear, carb) %>% apply(1, mean)
 # lapply(): applying a function over a list or vector; returning a list
 # sapply(): applying a function over a list or vector; similar to lapply() but simplifies output to produce an atomic vector
 
-lapply(mtcars, is.numeric)
+lapply(mtcars, is.numeric) %>% unlist
 sapply(mtcars, is.numeric)
 
 
@@ -315,7 +315,7 @@ my_mean <- function(my_vector) {
 }
 my_mean(c(1, 2, 3))
 my_mean
-
+my_mean(babynames)
 
 # another function that finds the remainder after division ("modulo operation)"
 remainder <- function(num = 10, divisor = 4) {
