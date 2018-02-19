@@ -1,0 +1,83 @@
+---
+title: "Web Data Collection Assignment: Regular expressions"
+author: "Simon Munzert"
+output: html_document
+---
+
+
+### 0. Preparation: Load packages
+
+```{r load packages}
+library(stringr)
+```
+
+
+
+### 1. The ultimate regular expression
+
+Find a regular expression that matches any text!
+
+
+```{r}
+regex <- ".*"
+string <- c("1. This is an example string by", "2. Eddie (born 1961 in München)", "!§%$&/)(}")
+str_extract_all(string, regex)
+```
+
+
+### 2. Finding strings that are matched by regular expressions
+
+Describe the types of strings that conform to the following regular expressions and construct an example that is matched by the regular expression.
+
+a. [0-9]+\\$
+b. b[a-z]{1,4}
+c. .*?\\.txt$
+d. \\d{2}/\\d{2}/\\d{4}
+e. <(.+?)>.+?</\\1>
+
+```{r}
+# Example
+str_extract_all("Phone 150$, TV 690$", "[0-9]+\\$") # Answer: describes prices in dollars
+str_extract_all("Just any sentence. Today is a nice day.", "\\b[a-z]{1,4}\\b") # Answer: describes words with no more than 4 characters
+str_extract_all(c("log.txt", "example.html", "bla.txt2"), ".*?\\.txt$") # Answer: describes txt file names
+str_extract_all(c("01/01/2000", "1/1/00", "01.01.2000"), "\\d{2}/\\d{2}/\\d{4}") # Answer: describes dates that conform to mm/dd/yyyy or dd/mm/yyyy format
+str_extract_all(c("<br>run</br>", "<title>My page</title>"), "<(.+?)>.+?</\\1>") # Answer: describes HTML/XML tags
+```
+
+
+### 3. Manipulating an email address
+
+Consider the mail address  datalover89[at]aol[dot]com. Now, complete the following tasks.
+
+a. Transform the string to a standard mail format (i.e., replace the square brackets with the appropriate symbols) using regular expressions.
+b. Now extract the local-part ("datalover89") and the domain ("aol") separately. 
+
+```{r}
+email <- "datalover89[at]aol[dot]com"
+email_new <- email %>% str_replace("\\[at\\]", "@") %>% str_replace("\\[dot\\]", ".")
+email_new
+str_extract(email_new, ".+?@") %>% str_replace("@", "")
+str_extract(email_new, "@.+") %>% str_replace("@", "")
+```
+
+
+### 4. A secret message
+The following code hides a secret message. Crack it with R and regular expressions. Once you have cracked it, try to collapse the solution in one single string. <i>Hint: Some of the characters are more revealing than others!</i>
+
+```{r}
+secret <- "clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0TanwoUwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigOd6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.RqoE65fGEa1otfb7wXm24k.6t3sH9zqe5fy89n6Ed5t9kc4fR905gmc4Ogxo5nhk!gr"
+
+(solved <- unlist(str_extract_all(secret, "[[:upper:][:punct:]]")))
+str_c(solved, collapse="")
+```
+
+
+
+### 5. Inspecting Trump's tweets
+
+The following code gives you access to a dataset of Donald Trump tweets that he posted over the course of the 2016 election campaign. Focus on the `Tweet_Text` variable and come up with your own shot at this data. Requirement: Use at least 3 different regular expressions and 3 different functions from the `stringr` package for your analysis!
+
+```{r, warning = FALSE, message = FALSE}
+library(readr)
+trump_df <- read_csv("https://raw.githubusercontent.com/Currie32/Tweet-Like-Trump/master/tweets.csv")
+```

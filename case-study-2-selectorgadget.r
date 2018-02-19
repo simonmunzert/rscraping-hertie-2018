@@ -1,18 +1,17 @@
-### -----------------------------------------------
-### Case Study: Mapping Breweries in Germany
+### ---------------------------------------------------------
+### Case Study: Collecting news headlines with SelectorGadget
 ### Simon Munzert
-### -----------------------------------------------
+### ---------------------------------------------------------
 
 
 ##  goal
 
 # 1. gather headlines from the New York Times using SelectorGadget
 # 2. import them into R
-# 3. analyze them using R
+# 3. visualize frequent words using a word cloud
 
 
 ## load packages
-
 library(rvest)
 library(stringr)
 library(quanteda)
@@ -23,7 +22,7 @@ url <- "http://www.nytimes.com"
 html_parsed <- read_html(url, encoding = "UTF-8")
 
 # step 2: construct and apply XPath expression using SelectorGadget (in browser)
-xpath <- '//*[contains(concat( " ", @class, " " ), concat( " ", "story-heading", " " ))]'
+xpath <- '//*[contains(concat( " ", @class, " " ), concat( " ", "story-heading", " " ))]//a'
 headings <- html_nodes(html_parsed, xpath = xpath) %>% html_text()
 headings
 

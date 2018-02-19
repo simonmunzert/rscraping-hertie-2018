@@ -147,25 +147,6 @@ unlist(str_extract_all(example.obj, "sentence.+(?!Bla)")) # negative lookahead (
 browseURL("http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address/201378#201378") # think again
 
 
-# a note on the stringi package
-# source: [https://goo.gl/XzEQai]
-
-# stringr is built on top of the stringi package. 
-# stringr is convenient because it exposes a minimal set of functions, which have been carefully picked to handle the most common string manipulation functions. 
-# stringi is designed to be comprehensive. It contains almost every function you might ever need: stringi has 234 functions (compare that to stringr's 42)
-# packages work very similarly; translating knowledge is easy (try stri_ instead of str_)
-library(stringi)
-?stri_count_words
-example.obj
-stri_count_words(example.obj)
-stri_stats_latex(example.obj)
-stri_stats_general(example.obj)
-stri_escape_unicode("\u00b5")
-stri_unescape_unicode("\u00b5")
-stri_rand_lipsum(3)
-stri_rand_shuffle("hello")
-stri_rand_strings(100, 10, pattern = "[humboldt]")
-
 
 
 ######################
@@ -238,10 +219,22 @@ agrepl("Donald Trump", "Barack Obama", max.distance = list(all = 3))
 
 
 
-######################
-### HOMEWORK       ###
-######################
+# a note on the stringi package
+# source: [https://goo.gl/XzEQai]
 
-# ADCR, Chapter 8, Problems 2, 3, 7, 8, and 9
-# submit via Moodle until 23.05.
+# stringr is built on top of the stringi package. 
+# stringr is convenient because it exposes a minimal set of functions, which have been carefully picked to handle the most common string manipulation functions. 
+# stringi is designed to be comprehensive. It contains almost every function you might ever need: stringi has 234 functions (compare that to stringr's 42)
+# packages work very similarly; translating knowledge is easy (try stri_ instead of str_)
+library(stringi)
+?stri_count_words
+example.obj
+stri_count_words(example.obj)
+stri_stats_latex(example.obj)
+stri_stats_general(example.obj)
+stri_escape_unicode("\u00b5")
+stri_unescape_unicode("\u00b5")
+stri_rand_lipsum(3)
+stri_rand_shuffle("hello")
+stri_rand_strings(100, 10, pattern = "[humboldt]")
 
