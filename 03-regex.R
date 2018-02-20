@@ -109,8 +109,8 @@ unlist(str_extract_all(example.obj, "e\\b"))
 unlist(str_extract_all(example.obj, "e\\B"))
 
 # quantifier
-str_extract(example.obj, "s[[:alpha:]][[:alpha:]][[:alpha:]]l")
-str_extract(example.obj, "s[[:alpha:]]{3}l")
+str_extract(example.obj, "s[:alpha:][:alpha:][:alpha:]l")
+str_extract(example.obj, "s[:alpha:]{3}l")
 str_extract(example.obj, "A.+sentence")
 
 # greedy quantification
@@ -130,7 +130,7 @@ unlist(str_extract_all(example.obj, "[1-2]"))
 unlist(str_extract_all(example.obj, "[12-]"))
 
 # backreferencing
-str_extract(example.obj, "([[:alpha:]]).+?\\1")
+str_extract(example.obj, "([:alpha:]).+?\\1")
 str_extract(example.obj, "(\\b[a-z]+\\b).+?\\1")
 
 # grouped matches
@@ -183,7 +183,7 @@ str_replace(example.obj, pattern = "huge", replacement = "giant")
 
 # splitting
 str_split(example.obj, "-") %>% unlist
-str_split_fixed(example.obj, "[[:blank:]]", 5) %>% as.character()
+str_split_fixed(example.obj, "[:blank:]", 5) %>% as.character()
 
 # manipulate multiple elements; example
 (char.vec <- c("this", "and this", "and that"))
@@ -195,7 +195,7 @@ str_detect(char.vec, "this")
 str_subset(char.vec, "this") # wrapper around x[str_detect(x, pattern)]
 
 # counting
-str_count(char.vec, "this")
+str_count(char.vec, "a")
 str_count(char.vec, "\\w+")
 str_length(char.vec)
 
@@ -209,6 +209,8 @@ char.vec
 str_trim(char.vec)
 
 # joining
+paste0("text", "manipulation")
+str_c("text", "manipulation")
 str_c("text", "manipulation", sep = " ")
 str_c(char.vec, collapse = "\n") %>% cat
 str_c("text", c("manipulation", "basics"), sep = " ")
