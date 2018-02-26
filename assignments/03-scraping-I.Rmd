@@ -1,0 +1,63 @@
+---
+title: "Web Scraping: Assignment 3"
+author: "Simon Munzert"
+output: html_document
+---
+
+
+### 0. Preparation: Load packages
+
+```{r load packages}
+# enter R code here
+```
+
+
+### 1. Getting information out of an XML file
+
+The file `potus.xml`, available at http://www.r-datacollection.com/materials/ch-4-xpath/potus/potus.xml, provides information on past presidents of the United States.
+
+a. Import the file into R using `read_xml()`, which works like `read_html()`---just for XML files.
+b. Extract the nicknames of all presidents, store them in a vector `nicknames`, and present the first 5 elements of this vector. <i>(Hint: instead of `html_nodes()` and `html_text()`, you will need the corresponding functions for XML documents.)</i>
+c. Which religious denomiation is represented most frequently among the former presidents?
+d. Extract the occupation values of all presidents who happened to be Baptists.
+
+
+```{r}
+# enter R code here
+```
+
+
+### 2. Scraping newspaper headlines
+
+Use Selectorgadget and R to scrape the article headlines from https://www.theguardian.com/international. 
+
+a. Present the first 6 observations from the uncleaned vector of scraped headlines.
+b. Tidy the text data (e.g., remove irrelevant characters if there are any, and get rid of duplicates).
+c. Identify the 5 most frequent words in all headlines. (Hint: use a string processing function from the stringr package to split up the headings word by word, and use an empty space, " ", as splitting pattern.)
+
+
+```{r}
+# enter R code here
+```
+
+
+
+### 3. Skyscrapers of the world
+
+Scrape the table "Buildings under construction" from https://en.wikipedia.org/wiki/List_of_tallest_buildings_in_the_world.
+
+a. Present the first 6 rows of the generated data frame.
+
+b. How many of those buildings are currently built in China? Use `table()` to present the result!
+
+c. In which city are most of the tallest buildings currently built?
+
+d. What is the sum of the planned architectural height of all those skyscrapers? 
+
+
+```{r}
+# enter R code here
+```
+
+
+
