@@ -95,7 +95,7 @@ browseURL("http://selectorgadget.com/")
 browseURL("https://www.nytimes.com")
 
 url <- "https://www.nytimes.com"
-xpath <-  '//*[contains(concat( " ", @class, " " ), concat( " ", "story-heading", " " ))]'
+xpath <-  '//*[contains(concat( " ", @class, " " ), concat( " ", "story-heading", " " ))]//a'
 url_parsed <- read_html(url)
 html_nodes(url_parsed, xpath = xpath) %>% html_text()
 
