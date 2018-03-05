@@ -1,0 +1,56 @@
+---
+title: "Web Scraping: Assignment 5"
+author: "Simon Munzert"
+output: html_document
+---
+
+
+### 0. Preparation: Load packages
+
+```{r load packages}
+# enter code here
+```
+
+
+### 1. Downloading HTML files from Wikipedia
+
+Continuing with the task from the last assignment (getting data from https://en.wikipedia.org/wiki/List_of_tallest_buildings), the goal is now to download the Wikipedia pages behind the links that lead to the articles on the buildings under construction. To that end, 
+
+a. create a set of links referring to these buildings from the first column of the table,
+b. create a folder "skyscraper_htmls", and
+c. download the HTML files to that folder.
+
+In completing these tasks, implement a server-friendly scraping workflow. Finally, check the number of files in that folder. 
+
+
+```{r}
+# enter code here
+```
+
+
+### 2. Creating a map of world capitals
+
+Take a look at https://en.wikipedia.org/wiki/List_of_national_capitals_in_alphabetical_order and complete the following tasks:
+
+a. Extract the geographic coordinates of each European country capital (no API use; stay on the Wikipedia platform to gather the needed information). 
+b. Using these coordinates, visualize the capitals on a map using the `maps` package.
+
+```{r}
+# enter code here
+```
+
+
+
+### 3. Querying the Academy Awards Acceptance Speech Database
+
+Go to http://aaspeechesdb.oscars.org/ and use R to search the database for occurrences of "woman" or "women" in speeches by male actors in a supporting or leading role. Parse the output (year of the speech given plus actor/movie) into one data frame and print it out!
+ 
+```{r}
+# enter code here
+```
+
+
+
+
+
+
