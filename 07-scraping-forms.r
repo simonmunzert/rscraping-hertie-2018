@@ -7,6 +7,7 @@
 ## load packages -----------------
 
 library(rvest)
+library(httr)
 library(stringr)
 
 
@@ -27,21 +28,21 @@ library(stringr)
 # build a valid request and send it out, and
 # process the returned resources. 
 
-# set up session
-browseURL("http://www.whoishostingthis.com/tools/user-agent/")
-uastring <- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
-session <- html_session("http://www.google.com", user_agent(uastring))
-
 # inspect form
-search <- html_form(session)[[1]]
+url_parsed <- read_html("http://www.google.com")
+search <- html_form(url_parsed)[[1]]
 search
 
 # set form parameters
-form <- set_values(search, q = "pubs firenze")
+form <- set_values(search, q = "kneipen kreuzberg")
+
+# submit form
 google_search <- submit_form(session, form)
+
+# retrieve results
 url_parsed <- read_html(google_search)
-hits_text <- html_nodes(url_parsed, css = ".r a") %>% html_text()
-hits_links <- html_nodes(url_parsed, css = ".r a") %>% html_attr("href") 
+hits_text <- html_nodes(url_parsed, xpath = "//*[@class='r']//a") %>% html_text()
+hits_links <- html_nodes(url_parsed, xpath = "//*[@class='r']//a") %>% html_attr("href") 
 
 
 ## another example: WordNet Search
@@ -52,18 +53,20 @@ url_parsed <- read_html(url)
 html_form(url_parsed)
 wordnet <- html_form(url_parsed)[[1]]
 
-# test it online with "data"
+# test it online with "data"; alternative approach using html_session()
+browseURL("http://www.whoishostingthis.com/tools/user-agent/")
+uastring <- "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 session <- html_session(url, user_agent(uastring))
 wordnet_form <- set_values(wordnet, s = "data")
 wordnet_search <- submit_form(session, wordnet_form)
 url_parsed <- read_html(wordnet_search)
-url_parsed %>% html_nodes("li") %>% html_text()
+url_parsed %>% html_nodes(xpath = "//li") %>% html_text()
 
 session <- html_session(url, user_agent(uastring))
 wordnet_form <- set_values(wordnet, s = "data", o2 = "1")
 wordnet_search <- submit_form(session, wordnet_form)
 url_parsed <- read_html(wordnet_search)
-url_parsed %>% html_nodes("li") %>% html_text()
+url_parsed %>% html_nodes(xpath = "//li") %>% html_text()
 
 
 
