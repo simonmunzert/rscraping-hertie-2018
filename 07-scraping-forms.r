@@ -29,8 +29,9 @@ library(stringr)
 # process the returned resources. 
 
 # inspect form
+session <- html_session("http://www.google.com")
 url_parsed <- read_html("http://www.google.com")
-search <- html_form(url_parsed)[[1]]
+search <- html_form(session)[[1]]
 search
 
 # set form parameters

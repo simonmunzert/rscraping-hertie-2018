@@ -8,6 +8,7 @@
 
 library(rvest)
 library(stringr)
+library(magrittr)
 
 
 ## dealing with multiple pages ----------
@@ -20,7 +21,6 @@ library(stringr)
 ## example: fetching and analyzing jstatsoft download statistics
 
 # set temporary working directory
-setwd(wd)
 tempwd <- ("data/jstatsoftStats")
 dir.create(tempwd)
 setwd(tempwd)
@@ -29,12 +29,12 @@ browseURL("http://www.jstatsoft.org/")
 
 # construct list of urls
 baseurl <- "http://www.jstatsoft.org/article/view/v"
-volurl <- paste0("0", seq(1,78,1))
+volurl <- paste0("0", seq(1,83,1))
 volurl[1:9] <- paste0("00", seq(1, 9, 1))
-brurl <- paste0("0", seq(1,9,1))
+issurl <- paste0("0", seq(1,9,1))
 urls_list <- paste0(baseurl, volurl)
-urls_list <- paste0(rep(urls_list, each = 9), "i", brurl)
-names <- paste0(rep(volurl, each = 9), "_", brurl, ".html")
+urls_list <- paste0(rep(urls_list, each = 9), "i", issurl)
+names <- paste0(rep(volurl, each = 9), "_", issurl, ".html")
 
 # download pages
 folder <- "html_articles/"
@@ -76,7 +76,7 @@ for (i in 1:length(list_files_path)) {
 
 
 # construct data frame
-dat <- data.frame(authors = authors, title = title, numViews = numViews, datePublish = datePublish)
+dat <- data.frame(authors = authors, title = title, numViews = numViews, datePublish = datePublish, stringsAsFactors = FALSE)
 head(dat)
 
 # plot download statistics
