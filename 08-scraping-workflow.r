@@ -51,11 +51,18 @@ browseURL("http://www.nytimes.com/robots.txt")
 
 library(robotstxt)
 # more info see here: https://cran.r-project.org/web/packages/robotstxt/vignettes/using_robotstxt.html
+
 paths_allowed("/", "http://google.com/", bot = "*")
 paths_allowed("/", "https://facebook.com/", bot = "*")
 
 paths_allowed("/imgres", "http://google.com/", bot = "*")
 paths_allowed("/imgres", "http://google.com/", bot = "Twitterbot")
+
+
+r_text <- get_robotstxt("https://www.google.com/")
+r_parsed <- parse_robotstxt(r_text)
+names(r_parsed)
+table(r_parsed$permissions$useragent, r_parsed$permissions$field)
 
 
 
