@@ -38,7 +38,7 @@ remDr$navigate(url)
 # open regions menu
 xpath <- '//*[@id="main"]/div/form/div[1]/ul/li[1]/span'
 regionsElem <- remDr$findElement(using = 'xpath', value = xpath)
-openRegions <- regionsElem$clickElement() # click on button
+regionsElem$clickElement() # click on button
 
 
 # selection "European Union"
