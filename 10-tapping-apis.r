@@ -27,8 +27,42 @@ devtools::install_github("hrbrmstr/ipapi")
 library(ipapi)
 
 # function call
-ip_df <- geolocate(c(NA, "", "10.0.1.1", "", "72.33.67.89", "www.spiegel.de", "search.twitter.com"), .progress=TRUE)
+ip_df <- geolocate(c(NA, "", "10.0.1.1", "72.33.67.89", "www.spiegel.de", "search.twitter.com"), .progress=TRUE)
 View(ip_df)
+
+
+
+## example: arxiv.org API
+
+# overview and documentation: 
+browseURL("http://arxiv.org/help/api/index")
+browseURL("http://arxiv.org/help/api/user-manual")
+
+# access api manually:
+browseURL("http://export.arxiv.org/api/query?search_query=all:forecast")
+forecast <- read_xml("http://export.arxiv.org/api/query?search_query=all:forecast")
+xml_ns(forecast) # inspect namespaces
+authors <- xml_find_all(forecast, "//d1:author", ns = xml_ns(forecast))
+authors %>% xml_text()
+
+# use ready-made binding, the aRxiv package
+library(aRxiv)
+
+# overview 
+browseURL("http://ropensci.org/tutorials/arxiv_tutorial.html")
+ls("package:aRxiv")
+
+# access API with wrapper
+?arxiv_search
+arxiv_df <- arxiv_search(query = "forecast AND submittedDate:[2016 TO 2017]", limit = 200, output_format = "data.frame")
+View(arxiv_df)
+
+arxiv_count('au:"Gary King"')
+query_terms
+
+arxiv_count('abs:"political" AND submittedDate:[2016 TO 2017]')
+polsci_articles <- arxiv_search('abs:"political" AND submittedDate:[2016 TO 2017]', limit = 200)
+
 
 
 
@@ -69,26 +103,6 @@ ip_parsed %>% as.data.frame(ip_parsed, stringsAsFactors = FALSE)
 # modify call
 fromJSON("http://ip-api.com/json/72.33.67.89") %>% unlist %>% t %>% as.data.frame(stringsAsFactors = FALSE)
 fromJSON("http://ip-api.com/json/www.spiegel.de") %>% unlist %>% t %>% as.data.frame(stringsAsFactors = FALSE)
-
-
-
-#######################
-### IT'S YOUR SHOT! ###
-#######################
-
-# 1. familiarize yourself with the OpenWeatherMap API!
-browseURL("http://openweathermap.org/current")
-# a) sign up for the API (the FREE version only!!) at the address below and obtain an API key!
-browseURL("http://openweathermap.org/api")
-# b) make a call to the API to find out the current weather conditions in Berlin!
-
-# 4. the following script showcases how to access the New York Times API:
-browseURL("http://pablobarbera.com/big-data-upf/html/01c-apis.html")
-# work through it and make some adaptations to track issues, topics of events of your interest!
-
-# 5.  there's an R wrapper for the ZEIT ONLINE Content API:
-browseURL("https://cran.r-project.org/web/packages/diezeit/index.html")
-# find out how it works and build a useful showcase!
 
 
 
