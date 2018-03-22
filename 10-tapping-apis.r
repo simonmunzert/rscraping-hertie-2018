@@ -104,6 +104,11 @@ ip_parsed %>% as.data.frame(ip_parsed, stringsAsFactors = FALSE)
 fromJSON("http://ip-api.com/json/72.33.67.89") %>% unlist %>% t %>% as.data.frame(stringsAsFactors = FALSE)
 fromJSON("http://ip-api.com/json/www.spiegel.de") %>% unlist %>% t %>% as.data.frame(stringsAsFactors = FALSE)
 
-
+# build function
+ipapi_grabber <- function(ip = "") {
+  dat <- fromJSON(paste0("http://ip-api.com/json/", ip)) %>% unlist %>% t %>% as.data.frame(stringsAsFactors = FALSE)
+  dat
+}
+ipapi_grabber("72.33.67.89")
 
 

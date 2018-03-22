@@ -1,0 +1,52 @@
+---
+title: "Web Scraping: Assignment 7"
+author: "Simon Munzert"
+output: html_document
+---
+
+
+### 0. Preparation: Load packages
+
+```{r load packages, warning = FALSE, message = FALSE}
+# your R code here
+```
+
+
+##### 1. Accessing Wikipedia data
+
+The Wikimedia REST API provides access to Wikimedia content and data in machine-readable formats.
+
+a. Familiarize yourself with the API by studying the documentation at https://wikimedia.org/api/rest_v1/. The Wikimedia Services team expects you to specify responsible queries. How should your queries look like in order to comply to the rules? (Answer in a couple of sentences)
+b. One of the endpoints provides access to the pageview counts of a given Wikipedia article in a given date range. Give the request URL for an example query of this endpoint! You can freely choose all available parameters.
+c. The `pageviews` package is an R client of the pageviews endpoint of the Wikimedia REST API. Check out how the package works. Then, specify two queries - one for the article on Donald Trump and one for Hillary Clinton on the English Wikipedia between January and December 2016. Based on the data returned by the API, plot both time-series of pageviews against each other!
+d. The `WikipediR` package provides access to more content on single Wikipedia pages. Check out its functionality and use it to find out content and metadata features of the article on Donald Trump in the English Wikipedia. Use at least 4 different functions from the package in your exploration of the data!
+
+<span style="color:blue">
+Use this HTML snippet to answer the first couple of questions.
+</span>
+
+```{r, eval = TRUE}
+# your R code here
+```
+
+
+
+##### 2. Checking the current weather with the OpenWeatherMap API
+
+OpenWeatherMap (http://openweathermap.org/) is a service that provides (partly for free) weather data. 
+
+a. Familiarize yourself with the API for current weather data at http://openweathermap.org/current. Give the request URL for an example query that asks for the current weather in Paris, Texas, in imperial units, French language, and XML format! Use a fictional API key to complete your URL.
+b. Sign up for the API (for free!) at http://openweathermap.org/api and store the API key in a local `.RData` file. (Important: You don't have to give proof for this step. In particular, you don't have to show how you store the key - I don't want to see it in the script!!)
+c. Import the key into R and construct a query that retrieves the current weather conditions in Cape Town, South Africa. Prepare the output as a `data.frame` object (presumably with one observation) and print it out.
+d. Finally, build a function getOpenWeather() that has the parameters `apikey`, `location`, and `units`, and that lets you automatically perform a query to the OpenWeatherMap API for the current weather conditions given valid values for the parameters. Test it with a couple of examples!
+
+```{r, eval = TRUE}
+# your R code here
+```
+
+
+
+
+
+
+
