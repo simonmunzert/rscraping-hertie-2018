@@ -8,6 +8,9 @@
 library(stringr)
 library(rvest)
 library(maps)
+library(pdftools)
+library(ggmap)
+
 
 
 ### regular expressions --------------------
