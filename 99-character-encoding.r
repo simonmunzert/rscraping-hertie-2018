@@ -6,6 +6,7 @@
 
 # load packages
 library(stringr)
+library(stringi)
 library(rvest)
 
 
@@ -70,3 +71,6 @@ small.frogs # in this case, we could restore the original string
 small.frogs.latin1 <- iconv(small.frogs, from = "utf8", to = "latin1")
 Encoding(small.frogs.latin1)
 
+# unescape and escape unicode character sequences (code points) with stringi
+symbol <- stri_unescape_unicode("\u00b5")
+stri_escape_unicode(symbol)
