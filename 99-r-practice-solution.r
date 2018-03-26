@@ -8,6 +8,8 @@
 library(stringr)
 library(rvest)
 library(maps)
+library(pdftools)
+library(ggmap)
 
 
 ### regular expressions --------------------
@@ -47,6 +49,14 @@ song <- c(
   That too many people have died?
   The answer, my friend, is blowin’ in the wind
   The answer is blowin’ in the wind")
+
+str_replace_all(song, pattern = "\\bman\\b|\\bfriend\\b", replacement = "dog") %>% cat()
+str_c(unlist(str_extract_all(song, "[[:upper:]]")), collapse="")
+str_replace_all(song, "\\b[:alpha:]{5,}\\b", "blah") %>% cat()
+
+verses <- str_split(song, "\\n", simplify = TRUE) %>% str_trim()
+str_extract_all(verses, "^[:alpha:]+|[:alpha:]+.$")
+
 
 
 ### regex case study --------------------
@@ -111,6 +121,14 @@ scale01 <- function(x) {
 vec <- runif(10, 0, 10)
 scale01(vec)
 
+
+df <- mtcars
+df[] <- lapply(df, scale01) # or:
+df <- lapply(df, scale01) %>% as.data.frame
+
+df <- iris
+df_num <- sapply(df, is.numeric)
+df[df_num] <- lapply(df[df_num], scale01) 
 
 
 # 2. multiple inputs: Map()
