@@ -1,3 +1,0 @@
-q = schulz,merkel,btw17,btw2017
-streamtime = 2017-07-03-13-02-52
-filename = data/rtweet-data/btw17_2017-07-03-13-02-52.json

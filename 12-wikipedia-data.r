@@ -7,20 +7,19 @@
 
 source("packages.r")
 
-#install.packages(c("WikipediR", "WikidataR", "pageviews", "statsgrokse"))
+#install.packages(c("WikipediR", "WikidataR", "pageviews"))
 library("WikipediR")
 library("WikidataR")
 library("pageviews")
-library("statsgrokse")
 
 ## overview of Wikipedia/Wikidata APIs ---------------------------------
 
 # Media Wiki action API
-# usecase: rich queries, editing and content access.
+# use case: rich queries, editing and content access.
 browseURL("https://www.mediawiki.org/wiki/API:Main_page")
 
 # MediaWiki REST API
-# usecase: high-volume content access.
+# use case: high-volume content access.
 browseURL("https://www.mediawiki.org/api/rest_v1/")
 
 # Wikidata
@@ -39,28 +38,50 @@ browseURL("https://cran.r-project.org/web/packages/WikidataR/vignettes/Introduct
 # get page content
 content <- page_content("de","wikipedia", page_name = "Brandenburger_Tor", as_wikitext = TRUE)
 str(content)
-content$parse$wikitext
+content$parse$wikitext %>% unlist %>% cat
 
-# get page links
+# get page links (careful: max 500 links)
 links <- page_links("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE, limit = 500, namespaces = 0)
 unlist(links) %>% as.character() %>% str_subset("[^0]")
 
-# get page backlinks
+# get page backlinks (links referring to a given web resource; careful: max 500 backlinks)
 backlinks <- page_backlinks("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE, limit = 500, namespaces = 0)
 unlist(backlinks) %>%  .[names(.) == "title"] %>% as.character
 
 # get external links
-page_external_links("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE, limit = 500)
+extlinks <- page_external_links("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE, limit = 500)
+extlinks[[1]]$extlinks
 
 # metadata on article
-page_info("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE)
+metadata <- page_info("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE) 
+metadata[[1]] %>% t() %>% as.data.frame
 
 # which categories in page
-categories_in_page("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE)
+cats <- categories_in_page("de","wikipedia", page = "Brandenburger_Tor", clean_response = TRUE)
+cats[[1]]$categories
 
 
 
 ## primer to the WikidataR package ----------------------------
+
+# WikiData is a free, collaborative, multilingual database
+# supports Wikis of the Wikimedia movement (such as Wikipedia or Wikimedia Commons) by offering standardized storage and access to data
+# basic logic:
+  # basic objects are stored as items with a unique item number, starting with "Q". 
+    # example: Douglas Adams --> Q42
+browseURL("https://www.wikidata.org/wiki/Q42")
+  # objects are described using statements, which detail certain properties, starting with "P"
+    # example: "educated at" --> P69
+  # properties themselves have values, which are again values
+    # example: "St. John's College" --> Q691283
+
+# access to data on WikiData:
+  # via WikiData API (see later)
+  # via SPARQL query interface at
+browseURL("https://query.wikidata.org/")
+  # via Reasonator (slightly more comfortable view on the data)
+browseURL("https://tools.wmflabs.org/reasonator/?q=Q42")
+
 
 # find item
 wd_item <- find_item("Brandenburger Tor", language = "de")
@@ -76,8 +97,12 @@ str(tor_item)
 extract_claims(tor_item, "P17")
 
 # extract properties
-property <- get_property("Q183")
+browseURL("https://www.wikidata.org/wiki/Q183")
+property <- get_property("Q82425")
 str(property)
+
+
+
 
 
 
@@ -98,21 +123,8 @@ searchWikiFun <- function(term = NULL, limit = 100, title.only = TRUE, wordcount
 }
 
 
-# quick assessment of pages' recent pageview statistics
-pagesMinPageviews <- function(pages = NULL, start = "2016090100", end = "2016093000", min.dailyviewsavg = 50) {
-  pageviews_list <- list()
-  pageviews_mean <- numeric()
-  for (i in seq_along(pages)) {
-    pageviews_list[[i]] <- try(article_pageviews(project = "de.wikipedia", article = URLencode(pages[i]), start = start, end = end, reformat = TRUE))
-    pageviews_mean[i] <- try(mean(pageviews_list[[i]]$views, na.rm = TRUE))
-  }
-  pageviews_mean_df <- data.frame(page = pages, pageviews_mean = num(pageviews_mean), stringsAsFactors = FALSE)
-  pages_minviews <- dplyr::filter(pageviews_mean_df, pageviews_mean >= min.dailyviewsavg) %>% extract2("page")
-  return(pages_minviews)
-}
-
 # download pageview statistics with wikipediatrend package
-pageviewsDownload <- function(pages = NULL, folder = "~", from = "2015070100", to = "2017040100", language = "de") {
+pageviewsDownload <- function(pages = NULL, folder = "~", from = "2015070100", to = "2018040100", language = "de") {
   pageviews_list <- list()
   pageviews_filenames_raw <- vector()
   for (i in seq_along(pages)) {
@@ -127,11 +139,8 @@ pageviewsDownload <- function(pages = NULL, folder = "~", from = "2015070100", t
 
 # test
 pages_search <- searchWikiFun(term = "Arbeitslosigkeit", limit = 100, wordcount.min = 500)
-pagenames_arbeitslosigkeit <- pagesMinPageviews(pages = pages_search, start = "2016090100", end = "2016093000", min.dailyviewsavg = 50)
 dir.create("data/wikipageviews")
-pageviewsDownload(pages = pagenames_arbeitslosigkeit, folder = "data/wikipageviews/", from = "2015070100", to = "2017040100", language = "de")
-
-
+pageviewsDownload(pages = pages_search, folder = "data/wikipageviews/", from = "2017070100", to = "2018040100", language = "de")
 
 
 

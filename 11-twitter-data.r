@@ -6,7 +6,7 @@
 ## peparations -------------------
 
 source("packages.r")
-
+library(rtweet)
 
 
 ## mining Twitter with R ----------------
@@ -21,15 +21,6 @@ browseURL("https://dev.twitter.com/rest/public/search")
 browseURL("https://dev.twitter.com/streaming/overview")
 browseURL("https://dev.twitter.com/streaming/overview/request-parameters")
 
-## how to get started
-
-  # 1. register as a developer at https://dev.twitter.com/ - it's free
-  # 2. create a new app at https://apps.twitter.com/ - choose a random name
-  # 3. go to "Keys and Access Tokens" and keep the displayed information ready
-  
-  # again: how to register at Twitter as developer, obtain and use access tokens
-  browseURL("https://mkearney.github.io/rtweet/articles/auth.html")
-
 ## R packages that connect to Twitter API
 
   # twitteR: connects to REST API; weird design decisions regarding data format
@@ -37,45 +28,65 @@ browseURL("https://dev.twitter.com/streaming/overview/request-parameters")
   # rtweet: connects to both REST and Streaming API, nice data formats, still under active development
 
 
-library(rtweet)
+## authentication with rtweet ----------------
+  
+## how to get started
+
+# 1. register as a developer at https://dev.twitter.com/ - it's free
+# 2. create a new app at https://apps.twitter.com/ - choose a random name
+# 3. go to "Keys and Access Tokens" and keep the displayed information ready
+
+# again: how to register at Twitter as developer, obtain and use access tokens
+browseURL("https://mkearney.github.io/rtweet/articles/auth.html")
+
 ## name assigned to created app
-appname <- "TwitterToR"
+appname <- "TwitterToR" # <--- add your Twitter App name here!
+
 ## api key (example below is not a real key)
-load("/Users/munzerts/rkeys.RDa")
-key <- TwitterToR_twitterkey
-## api secret (example below is not a real key)
-secret <- TwitterToR_twittersecret
+load("/Users/s.munzert/rkeys.RDa") # <--- adapt path here; see above!
+
+## register app
 twitter_token <- create_token(
   app = appname,
-  consumer_key = key,
-  consumer_secret = secret)
+  consumer_key = TwitterToR_twitterkey,
+  consumer_secret = TwitterToR_twittersecret,
+  set_renv = FALSE)
 
-rt <- search_tweets("merkel", n = 1000, include_rts = TRUE, lang = "de", token = twitter_token)
-tauber_bad <- search_tweets(URLencode("tauber :("), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
-tauber_good <- search_tweets(URLencode("tauber :)"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
-tauber_good <- search_tweets(URLencode("tauber filter:images"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
 
-names(rt)
-View(rt)
+## search Tweets with the rtweet package --------------
+
+# some advice for search:
+browseURL("https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators")
+
+
+merkel <- search_tweets("merkel", n = 1000, include_rts = FALSE, lang = "de", token = twitter_token)
+storch_bad <- search_tweets(URLencode("storch :("), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
+storch_good <- search_tweets(URLencode("storch :)"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
+storch_images <- search_tweets(URLencode("tauber filter:images"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
+
+names(merkel)
+View(merkel)
 
 ## plot time series of tweets frequency
-ts_plot(rt, by = "hours", theme = "spacegray", main = "Tweets about Merkel")
+ts_plot(merkel, by = "hours", theme = "spacegray", main = "Tweets about Merkel")
 
+
+# check rate limits
+rate_limits()
 
 
 ## streaming Tweets with the rtweet package -----------------
 
 # set keywords used to filter tweets
-q <- paste0("clinton,trump,hillaryclinton,imwithher,realdonaldtrump,maga,electionday")
-q <- paste0("schulz,merkel,btw17,btw2017")
+q <- paste0("merkel,trump,macron")
 
 # parse directly into data frame
-twitter_stream_ger <- stream_tweets(q = q, timeout = 30, token = twitter_token)
+twitter_stream <- stream_tweets(q = q, timeout = 30, token = twitter_token)
 
 # set up directory and JSON dump
 rtweet.folder <- "data/rtweet-data"
 dir.create(rtweet.folder)
-streamname <- "btw17"
+streamname <- "politicians"
 filename <- file.path(rtweet.folder, paste0(streamname, "_", format(Sys.time(), "%F-%H-%M-%S"), ".json"))
 
 # create file with stream's meta data
@@ -89,7 +100,7 @@ cat(metadata, file = metafile)
 
 # sink stream into JSON file
 stream_tweets(q = q, parse = FALSE,
-              timeout = 3600,
+              timeout = 30,
               file_name = filename,
               language = "de",
               token = twitter_token)
@@ -106,15 +117,6 @@ users_data(rt) %>% head()
 users_data(rt) %>% names()
 
 
-## mining tweets with the rtweet package ------
-
-rt <- parse_stream("data/rtweet-data/btw17_2017-07-03-13-02-52.json")
-merkel <- str_detect(rt$text, regex("merkel", ignore_case = TRUE))
-schulz <- str_detect(rt$text, regex("schulz", ignore_case = TRUE))
-mentions_df <- data.frame(merkel,schulz)
-colMeans(mentions_df, na.rm = TRUE)
-
-
 ## mining twitter accounts with the rtweet package ------
 
 user_df <- lookup_users("RDataCollection")
@@ -126,8 +128,57 @@ names(user_favorites_df)
 
 
 
-## what else to do with twitter data? ------------------
+## discover followers/friends of course participants ------------------
+
+user_id <- lookup_users("simonsaysnothin")$user_id
+followers <- get_followers("simonsaysnothin")
+friends <- get_friends("simonsaysnothin")
+
+twitter_names <- c("AnaKubli", "annapellegatta", "caromatamoros", "cusimanof",
+                   "dgohla", "jonvrushi", "luciacizmaziova", "nadinaiacob",
+                   "PresRamirez", "RubenZoest", "simonsaysnothin", "sjash87",
+                   "donata64", "RummelJa", "bernstmeng")
+
+# retrieve user ids, followers, friends
+user_id_list <- list()
+user_followers <- list()
+user_friends <- list()
+for (i in seq_along(twitter_names)) {
+  user_id_list[[i]] <- lookup_users(twitter_names[i])$user_id
+  user_followers[[i]] <- get_followers(twitter_names[i])
+  user_friends[[i]] <- get_friends(twitter_names[i])
+}
+
+# user id df
+user_id_df <- data.frame(name = twitter_names, user_id = unlist(user_id_list), stringsAsFactors = FALSE)
+
+# user friends df
+user_friends_df <- do.call(rbind.fill, user_friends)
+names(user_friends_df) <- c("name", "friend_id")
+user_friends_df <- merge(user_friends_df, user_id_df, by = "name", all.x = TRUE)
+
+# user followers df
+user_followers_list <- list()
+for(i in seq_along(twitter_names)) {
+  user_followers_list[[i]] <- data.frame(name = twitter_names[i], user_followers = user_followers[[i]]$user_id, stringsAsFactors = FALSE)
+}
+user_followers_df <- do.call(rbind.fill, user_followers_list)
+names(user_followers_df) <- c("name", "follower_id")
+user_followers_df <- merge(user_followers_df, user_id_df, by = "name", all.x = TRUE)
+
+table(user_friends_df$friend_id) %>% sort(decreasing = T) %>% .[1:10] %>% names
+lookup_users("252087644")$name
+lookup_users("813286")$name
+lookup_users("127908397")$name
+lookup_users("5988062")$name
+
+
+
+
+## what else to do with twitter (and facebook) data? ------------------
 
 # sooo much. for some inspiration, check out
 browseURL("http://pablobarbera.com/big-data-upf/")
+
+
 

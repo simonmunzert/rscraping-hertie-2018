@@ -23,13 +23,14 @@ save(TwitterToR_twitterkey,
 appname <- "TwitterToR" # <--- add your Twitter App name here!
 
 ## api key (example below is not a real key)
-load("/Users/munzerts/rkeys.RDa") # <--- adapt path here; see above!
+load("/Users/s.munzert/rkeys.RDa") # <--- adapt path here; see above!
 
 ## register app
 twitter_token <- create_token(
   app = appname,
   consumer_key = TwitterToR_twitterkey,
-  consumer_secret = TwitterToR_twittersecret)
+  consumer_secret = TwitterToR_twittersecret,
+  set_renv = FALSE)
 
 ## check if everything worked
 rt <- search_tweets("merkel", n = 200, token = twitter_token)
