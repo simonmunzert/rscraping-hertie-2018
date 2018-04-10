@@ -23,7 +23,7 @@ save(TwitterToR_twitterkey,
 appname <- "TwitterToR" # <--- add your Twitter App name here!
 
 ## api key (example below is not a real key)
-load("/Users/s.munzert/rkeys.RDa") # <--- adapt path here; see above!
+load("/Users/simonmunzert/rkeys.RDa") # <--- adapt path here; see above!
 
 ## register app
 twitter_token <- create_token(

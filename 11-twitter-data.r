@@ -43,14 +43,14 @@ browseURL("https://mkearney.github.io/rtweet/articles/auth.html")
 appname <- "TwitterToR" # <--- add your Twitter App name here!
 
 ## api key (example below is not a real key)
-load("/Users/s.munzert/rkeys.RDa") # <--- adapt path here; see above!
+load("/Users/simonmunzert/rkeys.RDa") # <--- adapt path here; see above!
 
 ## register app
 twitter_token <- create_token(
   app = appname,
   consumer_key = TwitterToR_twitterkey,
   consumer_secret = TwitterToR_twittersecret,
-  set_renv = FALSE)
+  set_renv = TRUE) # set to false if authentication does not work properly
 
 
 ## search Tweets with the rtweet package --------------
@@ -59,20 +59,21 @@ twitter_token <- create_token(
 browseURL("https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators")
 
 
-merkel <- search_tweets("merkel", n = 1000, include_rts = FALSE, lang = "de", token = twitter_token)
+merkel <- search_tweets("merkel", n = 1000, include_rts = FALSE, lang = "de")
+
 storch_bad <- search_tweets(URLencode("storch :("), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
 storch_good <- search_tweets(URLencode("storch :)"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
-storch_images <- search_tweets(URLencode("tauber filter:images"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
+storch_images <- search_tweets(URLencode("storch filter:images"), n = 100, include_rts = FALSE, lang = "de", token = twitter_token)
 
 names(merkel)
-View(merkel)
+View(storch_images)
 
 ## plot time series of tweets frequency
 ts_plot(merkel, by = "hours", theme = "spacegray", main = "Tweets about Merkel")
 
 
 # check rate limits
-rate_limits()
+rate_limits(token = twitter_token) %>% View()
 
 
 ## streaming Tweets with the rtweet package -----------------
@@ -102,7 +103,7 @@ cat(metadata, file = metafile)
 stream_tweets(q = q, parse = FALSE,
               timeout = 30,
               file_name = filename,
-              language = "de",
+              #language = "de",
               token = twitter_token)
 
 # parse from json file
@@ -125,7 +126,6 @@ user_timeline_df <- get_timeline("RDataCollection")
 names(user_timeline_df)
 user_favorites_df <- get_favorites("RDataCollection")
 names(user_favorites_df)
-
 
 
 ## discover followers/friends of course participants ------------------
@@ -153,13 +153,13 @@ for (i in seq_along(twitter_names)) {
 user_id_df <- data.frame(name = twitter_names, user_id = unlist(user_id_list), stringsAsFactors = FALSE)
 
 # user friends df
-user_friends_df <- do.call(rbind.fill, user_friends)
+user_friends_df <- do.call(rbind.fill, user_friends[1:14])
 names(user_friends_df) <- c("name", "friend_id")
 user_friends_df <- merge(user_friends_df, user_id_df, by = "name", all.x = TRUE)
 
 # user followers df
 user_followers_list <- list()
-for(i in seq_along(twitter_names)) {
+for(i in 1:14) {
   user_followers_list[[i]] <- data.frame(name = twitter_names[i], user_followers = user_followers[[i]]$user_id, stringsAsFactors = FALSE)
 }
 user_followers_df <- do.call(rbind.fill, user_followers_list)
@@ -171,7 +171,9 @@ lookup_users("252087644")$name
 lookup_users("813286")$name
 lookup_users("127908397")$name
 lookup_users("5988062")$name
-
+lookup_users("14677919")$name
+lookup_users("4111954900")$name
+lookup_users("807095")$name
 
 
 

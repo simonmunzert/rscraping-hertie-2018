@@ -1,0 +1,3 @@
+q = merkel,trump,macron
+streamtime = 2018-04-10-09-24-36
+filename = data/rtweet-data/politicians_2018-04-10-09-24-36.json
